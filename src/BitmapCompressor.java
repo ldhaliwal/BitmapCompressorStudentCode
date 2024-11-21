@@ -16,6 +16,8 @@
  *  1240 bits
  ******************************************************************************/
 
+import java.util.ArrayList;
+
 /**
  *  The {@code BitmapCompressor} class provides static methods for compressing
  *  and expanding a binary bitmap input.
@@ -23,7 +25,7 @@
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  *  @author Zach Blick
- *  @author YOUR NAME HERE
+ *  @author Liliana Dhaliwal
  */
 public class BitmapCompressor {
 
@@ -32,8 +34,26 @@ public class BitmapCompressor {
      * and writes the results to standard output.
      */
     public static void compress() {
+        ArrayList<Integer> data = new ArrayList<>();
 
-        // TODO: complete compress()
+        while(!BinaryStdIn.isEmpty()){
+            data.add(BinaryStdIn.readInt(1));
+        }
+
+        int currentBit = data.get(0);
+        int count = 0;
+
+        for (int bit : data) {
+            if (bit == currentBit) {
+                count++;
+            }
+            else {
+                BinaryStdOut.write(currentBit, 1);
+                BinaryStdOut.write(count, 8);
+                currentBit = bit;
+                count = 1;
+            }
+        }
 
         BinaryStdOut.close();
     }
@@ -43,10 +63,35 @@ public class BitmapCompressor {
      * and writes the results to standard output.
      */
     public static void expand() {
+        while (!BinaryStdIn.isEmpty()) {
+            int bit = BinaryStdIn.readInt(1);
+            int length = BinaryStdIn.readInt(8);
 
-        // TODO: complete expand()
+            for (int i = 0; i < length; i++) {
+                BinaryStdOut.write(bit, 1);
+            }
+        }
 
         BinaryStdOut.close();
+
+//        ArrayList<Integer> data = new ArrayList<>();
+//
+//        while(!BinaryStdIn.isEmpty()){
+//            data.add(BinaryStdIn.readInt(1));
+//        }
+//
+//        for(int i = 0; i < data.size(); i++){
+//            int bit = data.get(i);
+//            int bitCount = data.get(i + 1);
+//
+//            // Write the bit `count` times
+//            for (int j = 0; j < bitCount; j++) {
+//                BinaryStdOut.write(bit, 1);
+//            }
+//            i++;
+//        }
+//
+//        BinaryStdOut.close();
     }
 
     /**

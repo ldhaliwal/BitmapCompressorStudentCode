@@ -37,24 +37,30 @@ public class BitmapCompressor {
         int count = 0;
         int bit, currentBit = 0;
 
+        // Cycles through each number in the input file
         while(!BinaryStdIn.isEmpty()){
             bit = BinaryStdIn.readInt(1);
 
             if(bit == currentBit){
+                // Checks if we've found a run longer than our allotted amount of space
                 if (count == 255) {
+                    // If so, write out the count, write that there is 0 of the next bit, and continue to count
                     BinaryStdOut.write(count, 8);
                     count = 0;
                     BinaryStdOut.write(count, 8);
                 }
             }
+            // Writes out the count of a given digit, and update the current bit
             else {
                 BinaryStdOut.write(count, 8);
                 count = 0;
+                // Switches the value of the current bit (all credit to Kate Little for this super quick way of doing it!)
                 currentBit = 1 - currentBit;
             }
             count++;
         }
 
+        // Writes out the final count
         BinaryStdOut.write(count, 8);
         BinaryStdOut.close();
     }
@@ -65,12 +71,17 @@ public class BitmapCompressor {
      */
     public static void expand() {
         int bit = 0;
+
+        // Reads through the input file
         while (!BinaryStdIn.isEmpty()) {
             int length = BinaryStdIn.readInt(8);
 
+            // Cycles through a given count and writes out that many of a bit
             for (int i = 0; i < length; i++) {
                 BinaryStdOut.write(bit, 1);
             }
+
+            // Updates the value of the bit that is being written out
             bit = 1 - bit;
         }
         BinaryStdOut.close();
